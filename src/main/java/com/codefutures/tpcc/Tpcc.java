@@ -1,9 +1,8 @@
-package org.opensharding.tpcc;
+package com.codefutures.tpcc;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;

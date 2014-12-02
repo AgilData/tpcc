@@ -1,12 +1,8 @@
-package org.opensharding.tpcc;
+package com.codefutures.tpcc;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package org.opensharding.tpcc;
+package com.codefutures.tpcc;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;

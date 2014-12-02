@@ -1,11 +1,8 @@
-package org.opensharding.tpcc;
+package com.codefutures.tpcc;
 
-import org.opensharding.tpcc.load.Record;
-import org.opensharding.tpcc.load.RecordLoader;
+import com.codefutures.tpcc.load.Record;
+import com.codefutures.tpcc.load.RecordLoader;
 
-import java.sql.Statement;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 

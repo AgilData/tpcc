@@ -1,8 +1,6 @@
-package org.opensharding.tpcc;
+package com.codefutures.tpcc;
 
 import java.sql.*;
-import java.util.Calendar;
-import java.util.Date;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;

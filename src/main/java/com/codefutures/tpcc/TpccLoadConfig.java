@@ -1,9 +1,9 @@
-package org.opensharding.tpcc;
+package com.codefutures.tpcc;
 
-import org.opensharding.tpcc.load.FileLoader;
-import org.opensharding.tpcc.load.JdbcPreparedStatementLoader;
-import org.opensharding.tpcc.load.JdbcStatementLoader;
-import org.opensharding.tpcc.load.RecordLoader;
+import com.codefutures.tpcc.load.FileLoader;
+import com.codefutures.tpcc.load.JdbcPreparedStatementLoader;
+import com.codefutures.tpcc.load.JdbcStatementLoader;
+import com.codefutures.tpcc.load.RecordLoader;
 
 import java.io.File;
 import java.io.IOException;

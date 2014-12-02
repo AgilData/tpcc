@@ -1,4 +1,4 @@
-package org.opensharding.tpcc;
+package com.codefutures.tpcc;
 
 public class AbortedTransactionException extends Exception {
 	public AbortedTransactionException() {

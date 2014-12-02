@@ -1,7 +1,6 @@
-package org.opensharding.tpcc.load;
+package com.codefutures.tpcc.load;
 
 import java.util.Arrays;
-import java.util.Date;
 
 /**
  * Simple object to represent a single row of data being loaded to the database (or written to a CSV file).
