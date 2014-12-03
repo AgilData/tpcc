@@ -44,7 +44,7 @@ public class Load implements TpccConstants {
             orig[pos] = 1;
         }
 
-        final String ITEM_COLUMN_NAME[] = { "i_id", " i_im_id", " i_name", " i_price", " i_data" };
+        final String ITEM_COLUMN_NAME[] = {"i_id", " i_im_id", " i_name", " i_price", " i_data"};
         final Record itemRecord = new Record(5);
         final RecordLoader itemLoader = loadConfig.createLoader("item", ITEM_COLUMN_NAME);
 
@@ -79,9 +79,9 @@ public class Load implements TpccConstants {
             itemRecord.add(i_name);
             itemRecord.add(i_price);
             itemRecord.add(i_data);
-            
+
             itemLoader.load(itemRecord);
-    
+
             if ((i_id % 100) == 0) {
                 System.out.printf(".");
                 if ((i_id % 5000) == 0)
@@ -90,7 +90,7 @@ public class Load implements TpccConstants {
         }
 
         /* EXEC SQL COMMIT WORK; */
-        
+
         itemLoader.close();
 
         System.out.printf("Item Done. \n");
@@ -120,7 +120,7 @@ public class Load implements TpccConstants {
 
         System.out.printf("Loading Warehouse \n");
 
-        final String WAREHOUSE_COLUMN_NAME[] = { "w_id", " w_name", " w_street_1", " w_street_2", " w_city", " w_state", " w_zip", " w_tax", " w_ytd" };
+        final String WAREHOUSE_COLUMN_NAME[] = {"w_id", " w_name", " w_street_1", " w_street_2", " w_city", " w_state", " w_zip", " w_tax", " w_ytd"};
         final Record warehouseRecord = new Record(9);
         final RecordLoader warehouseLoader = loadConfig.createLoader("warehouse", WAREHOUSE_COLUMN_NAME);
 
@@ -257,12 +257,12 @@ public class Load implements TpccConstants {
         int i = 0;
         boolean error = false;
 
-        final String STOCK_COLUMN_NAME[] = { "s_i_id", " s_w_id", " s_quantity", " " +
+        final String STOCK_COLUMN_NAME[] = {"s_i_id", " s_w_id", " s_quantity", " " +
                 "s_dist_01", " s_dist_02", " s_dist_03", " s_dist_04", " s_dist_05", " s_dist_06", " " +
                 "s_dist_07", " s_dist_08", " s_dist_09", " s_dist_10", " s_ytd", " s_order_cnt", " " +
                 "s_remote_cnt", " s_data"
         };
-        
+
         final Record stockRecord = new Record(17);
         RecordLoader stockLoader = loadConfig.createLoader("stock", STOCK_COLUMN_NAME);
 
@@ -375,8 +375,8 @@ public class Load implements TpccConstants {
         d_w_id = w_id;
         d_ytd = (float) 30000.0;
         d_next_o_id = 3001;
-        
-        final String[] DISTRICT_COLUMN_NAME = { "d_id", " d_w_id", " d_name", " d_street_1", " d_street_2", " d_city", " d_state", " d_zip", " d_tax", " d_ytd", " d_next_o_id" };
+
+        final String[] DISTRICT_COLUMN_NAME = {"d_id", " d_w_id", " d_name", " d_street_1", " d_street_2", " d_city", " d_state", " d_zip", " d_tax", " d_ytd", " d_next_o_id"};
         final Record districtRecord = new Record(11);
         final RecordLoader districtLoader = loadConfig.createLoader("district", DISTRICT_COLUMN_NAME);
 
@@ -562,9 +562,9 @@ public class Load implements TpccConstants {
                     customerRecord.add(1);
                     customerRecord.add(0);
                     customerRecord.add(c_data);
-                    
+
                     customerLoader.load(customerRecord);
-                    
+
                 } catch (Exception e) {
                     throw new RuntimeException("Customer insert error", e);
                 }
@@ -589,7 +589,7 @@ public class Load implements TpccConstants {
                     historyRecord.add(date);
                     historyRecord.add(h_amount);
                     historyRecord.add(h_data);
-                    
+
                     historyLoader.load(historyRecord);
 
                 } catch (Exception e) {
@@ -649,15 +649,15 @@ public class Load implements TpccConstants {
             }
         }
 
-        final String ORDERS_COLUMN_NAME[] = { "o_id", "o_d_id", "o_w_id", "o_c_id", "o_entry_d", "o_carrier_id", "o_ol_cnt", "o_all_local"};
+        final String ORDERS_COLUMN_NAME[] = {"o_id", "o_d_id", "o_w_id", "o_c_id", "o_entry_d", "o_carrier_id", "o_ol_cnt", "o_all_local"};
         final Record orderRecord = new Record(8);
         final RecordLoader orderLoader = loadConfig.createLoader("orders", ORDERS_COLUMN_NAME);
 
-        final String NEW_ORDERS_COLUMN_NAMES[] = { "no_o_id", "no_d_id", "no_w_id"};
+        final String NEW_ORDERS_COLUMN_NAMES[] = {"no_o_id", "no_d_id", "no_w_id"};
         final Record newOrderRecord = new Record(3);
         final RecordLoader newOrderLoader = loadConfig.createLoader("new_orders", NEW_ORDERS_COLUMN_NAMES);
 
-        final String ORDER_LINE_COLUMN_NAME[] = { "ol_o_id", "ol_d_id", "ol_w_id", "ol_number", "ol_i_id", "ol_supply_w_id", "ol_delivery_d", "ol_quantity", "ol_amount", "ol_dist_info"};
+        final String ORDER_LINE_COLUMN_NAME[] = {"ol_o_id", "ol_d_id", "ol_w_id", "ol_number", "ol_i_id", "ol_supply_w_id", "ol_delivery_d", "ol_quantity", "ol_amount", "ol_dist_info"};
         final Record orderLineRecord = new Record(10);
         final RecordLoader orderLineLoader = loadConfig.createLoader("order_line", ORDER_LINE_COLUMN_NAME);
 
@@ -678,7 +678,7 @@ public class Load implements TpccConstants {
 
 
                 if (o_id > 2100) {    /* the last 900 orders have not been
-							 * delivered) */
+                             * delivered) */
                     /*EXEC SQL INSERT INTO
                                          orders
                                          values(:o_id,:o_d_id,:o_w_id,:o_c_id,

@@ -118,7 +118,6 @@ public class NewOrder implements TpccConstants {
             int ol_quantity = 0;
 
 
-
             int min_num = 0;
             int i = 0, j = 0, tmp = 0, swp = 0;
 

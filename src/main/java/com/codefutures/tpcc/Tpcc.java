@@ -80,7 +80,7 @@ public class Tpcc implements TpccConstants {
     public Tpcc() {
         // Empty.
     }
-    
+
 
     private void init() {
         logger.info("Loading properties from: " + PROPERTIESFILE);
@@ -97,7 +97,7 @@ public class Tpcc implements TpccConstants {
 
 
     private int runBenchmark(boolean overridePropertiesFile, String[] argv) {
-    	
+
         System.out.println("***************************************");
         System.out.println("****** Java TPC-C Load Generator ******");
         System.out.println("***************************************");
@@ -121,60 +121,60 @@ public class Tpcc implements TpccConstants {
         
         /* number of node (default 0) */
         num_node = 0;
-        
-        if(overridePropertiesFile){
-        	for(int i=0; i<argv.length; i=i+2){
-        		if(argv[i].equals("-u")){
-        			dbUser = argv[i+1];
-        		}else if(argv[i].equals("-p")){
-        			dbPassword = argv[i+1];
-        		}else if(argv[i].equals("-w")){
-        			numWare = Integer.parseInt(argv[i+1]);
-        		}else if(argv[i].equals("-c")){
-        			numConn = Integer.parseInt(argv[i+1]);
-        		}else if(argv[i].equals("-r")){
-        			rampupTime = Integer.parseInt(argv[i+1]);
-        		}else if(argv[i].equals("-t")){
-        			measureTime = Integer.parseInt(argv[i+1]);
-        		}else if(argv[i].equals("-j")){
-        			javaDriver = argv[i+1];
-        		}else if(argv[i].equals("-l")){
-        			jdbcUrl = argv[i+1];
-        		}else if(argv[i].equals("-f")){
-        			fetchSize = Integer.parseInt(argv[i+1]);
-        		}else{
-        			System.out.println("Incorrect Argument: " + argv[i]);
-        			System.out.println("The possible arguments are as follows: ");
-        			System.out.println("-h [database host]");
-        			System.out.println("-d [database name]");
-        			System.out.println("-u [database username]");
-        			System.out.println("-p [database password]");
-        			System.out.println("-w [number of warehouses]");
-        			System.out.println("-c [number of connections]");
-        			System.out.println("-r [ramp up time]");
-        			System.out.println("-t [duration of the benchmark (sec)]");
-        			System.out.println("-j [java driver]");
-        			System.out.println("-l [jdbc url]");
-        			System.out.println("-h [jdbc fetch size]");
-        			System.exit(-1);
 
-        		}
-        	}
-        }else{
-        
-	        dbUser = properties.getProperty(USER);
-	        dbPassword = properties.getProperty(PASSWORD);
-	        numWare = Integer.parseInt(properties.getProperty(WAREHOUSECOUNT));
-	        numConn = Integer.parseInt(properties.getProperty(CONNECTIONS));
-	        rampupTime = Integer.parseInt(properties.getProperty(RAMPUPTIME));
-	        measureTime = Integer.parseInt(properties.getProperty(DURATION));
-	        javaDriver = properties.getProperty(DRIVER);
-	        jdbcUrl = properties.getProperty(JDBCURL);
-	        String jdbcFetchSize = properties.getProperty("JDBCFETCHSIZE");
-	        if (jdbcFetchSize != null) {
-	            fetchSize = Integer.parseInt(jdbcFetchSize);
-	        }
-	
+        if (overridePropertiesFile) {
+            for (int i = 0; i < argv.length; i = i + 2) {
+                if (argv[i].equals("-u")) {
+                    dbUser = argv[i + 1];
+                } else if (argv[i].equals("-p")) {
+                    dbPassword = argv[i + 1];
+                } else if (argv[i].equals("-w")) {
+                    numWare = Integer.parseInt(argv[i + 1]);
+                } else if (argv[i].equals("-c")) {
+                    numConn = Integer.parseInt(argv[i + 1]);
+                } else if (argv[i].equals("-r")) {
+                    rampupTime = Integer.parseInt(argv[i + 1]);
+                } else if (argv[i].equals("-t")) {
+                    measureTime = Integer.parseInt(argv[i + 1]);
+                } else if (argv[i].equals("-j")) {
+                    javaDriver = argv[i + 1];
+                } else if (argv[i].equals("-l")) {
+                    jdbcUrl = argv[i + 1];
+                } else if (argv[i].equals("-f")) {
+                    fetchSize = Integer.parseInt(argv[i + 1]);
+                } else {
+                    System.out.println("Incorrect Argument: " + argv[i]);
+                    System.out.println("The possible arguments are as follows: ");
+                    System.out.println("-h [database host]");
+                    System.out.println("-d [database name]");
+                    System.out.println("-u [database username]");
+                    System.out.println("-p [database password]");
+                    System.out.println("-w [number of warehouses]");
+                    System.out.println("-c [number of connections]");
+                    System.out.println("-r [ramp up time]");
+                    System.out.println("-t [duration of the benchmark (sec)]");
+                    System.out.println("-j [java driver]");
+                    System.out.println("-l [jdbc url]");
+                    System.out.println("-h [jdbc fetch size]");
+                    System.exit(-1);
+
+                }
+            }
+        } else {
+
+            dbUser = properties.getProperty(USER);
+            dbPassword = properties.getProperty(PASSWORD);
+            numWare = Integer.parseInt(properties.getProperty(WAREHOUSECOUNT));
+            numConn = Integer.parseInt(properties.getProperty(CONNECTIONS));
+            rampupTime = Integer.parseInt(properties.getProperty(RAMPUPTIME));
+            measureTime = Integer.parseInt(properties.getProperty(DURATION));
+            javaDriver = properties.getProperty(DRIVER);
+            jdbcUrl = properties.getProperty(JDBCURL);
+            String jdbcFetchSize = properties.getProperty("JDBCFETCHSIZE");
+            if (jdbcFetchSize != null) {
+                fetchSize = Integer.parseInt(jdbcFetchSize);
+            }
+
         }
         if (num_node > 0) {
             if (numWare % num_node != 0) {
@@ -214,8 +214,6 @@ public class Tpcc implements TpccConstants {
         }
 
 
-    
-        
         // Init 2-dimensional arrays.
         success2 = new int[TRANSACTION_COUNT][numConn];
         late2 = new int[TRANSACTION_COUNT][numConn];
@@ -308,8 +306,8 @@ public class Tpcc implements TpccConstants {
             failure2_sum[i] = 0;
             for (int k = 0; k < numConn; k++) {
                 success2_sum[i] += success2[i][k];
-                late2_sum[i]    += late2[i][k];
-                retry2_sum[i]   += retry2[i][k];
+                late2_sum[i] += late2[i][k];
+                retry2_sum[i] += retry2[i][k];
                 failure2_sum[i] += failure2[i][k];
             }
         }
@@ -359,7 +357,7 @@ public class Tpcc implements TpccConstants {
         */
         System.out.printf(" [response time (at least 90%% passed)]\n");
 
-        for (int n=0; n<TRANSACTION_NAME.length; n++) {
+        for (int n = 0; n < TRANSACTION_NAME.length; n++) {
             f = 100.0 * (float) success[n] / (float) (success[n] + late[n]);
             if (DEBUG) logger.debug("f: " + f + " success[" + n + "]: " + success[n] + " late[" + n + "]: " + late[n]);
             System.out.printf("      %s: %f%% ", TRANSACTION_NAME[n], f);
@@ -402,8 +400,8 @@ public class Tpcc implements TpccConstants {
     public static void main(String[] argv) {
 
         System.out.println("TPCC version " + VERSION + " Number of Arguments: " + argv.length);
-        
-        
+
+
         // dump information about the environment we are running in
         String sysProp[] = {
                 "os.name",
@@ -415,45 +413,45 @@ public class Tpcc implements TpccConstants {
         };
 
         for (String s : sysProp) {
-            logger.info( "System Property: " + s + " = " + System.getProperty(s));
+            logger.info("System Property: " + s + " = " + System.getProperty(s));
         }
 
         DecimalFormat df = new DecimalFormat("#,##0.0");
-        System.out.println("maxMemory = " + df.format(Runtime.getRuntime().totalMemory()/(1024.0*1024.0)) + " MB");
+        System.out.println("maxMemory = " + df.format(Runtime.getRuntime().totalMemory() / (1024.0 * 1024.0)) + " MB");
 
         Tpcc tpcc = new Tpcc();
-        
-        int ret=0;
-        
-        if(argv.length == 0){
-        	
-        	System.out.println("Using the properties file for configuration.");
+
+        int ret = 0;
+
+        if (argv.length == 0) {
+
+            System.out.println("Using the properties file for configuration.");
             tpcc.init();
             ret = tpcc.runBenchmark(false, argv);
-           
-        }else{
-        	if((argv.length % 2) == 0){
-        		System.out.println("Using the command line arguments for configuration.");
-                ret = tpcc.runBenchmark(true, argv);	
-        	}else{
-        		System.out.println("Invalid number of arguments.");
-        		System.out.println("The possible arguments are as follows: ");
-    			System.out.println("-h [database host]");
-    			System.out.println("-d [database name]");
-    			System.out.println("-u [database username]");
-    			System.out.println("-p [database password]");
-    			System.out.println("-w [number of warehouses]");
-    			System.out.println("-c [number of connections]");
-    			System.out.println("-r [ramp up time]");
-    			System.out.println("-t [duration of the benchmark (sec)]");
-    			System.out.println("-j [java driver]");
-    			System.out.println("-l [jdbc url]");
-    			System.out.println("-h [jdbc fetch size]");
-    			System.exit(-1);
-        	}
-        	
+
+        } else {
+            if ((argv.length % 2) == 0) {
+                System.out.println("Using the command line arguments for configuration.");
+                ret = tpcc.runBenchmark(true, argv);
+            } else {
+                System.out.println("Invalid number of arguments.");
+                System.out.println("The possible arguments are as follows: ");
+                System.out.println("-h [database host]");
+                System.out.println("-d [database name]");
+                System.out.println("-u [database username]");
+                System.out.println("-p [database password]");
+                System.out.println("-w [number of warehouses]");
+                System.out.println("-c [number of connections]");
+                System.out.println("-r [ramp up time]");
+                System.out.println("-t [duration of the benchmark (sec)]");
+                System.out.println("-j [java driver]");
+                System.out.println("-l [jdbc url]");
+                System.out.println("-h [jdbc fetch size]");
+                System.exit(-1);
+            }
+
         }
-        
+
 
         System.out.println("Terminating process now");
         System.exit(ret);

@@ -35,28 +35,27 @@ public class JdbcStatementLoader implements RecordLoader {
     }
 
     public void load(Record r) throws Exception {
-        if (currentBatchSize==0) {
+        if (currentBatchSize == 0) {
             b.append("INSERT ");
             if (ignore) {
                 b.append("IGNORE ");
             }
             b.append("INTO `").append(tableName).append("` (");
-            for (int i=0; i<columnName.length; i++) {
-                if (i>0) {
+            for (int i = 0; i < columnName.length; i++) {
+                if (i > 0) {
                     b.append(',');
                 }
                 b.append(columnName[i].trim());
             }
             b.append(") VALUES ");
-        }
-        else {
+        } else {
             b.append(',');
         }
         b.append('(');
         write(b, r, ",");
         b.append(')');
 
-        if (++currentBatchSize==maxBatchSize) {
+        if (++currentBatchSize == maxBatchSize) {
             executeBulkInsert();
         }
     }
@@ -77,8 +76,8 @@ public class JdbcStatementLoader implements RecordLoader {
 
     public void write(StringBuilder b, Record r, String delim) throws Exception {
         final Object[] field = r.getField();
-        for (int i=0; i< field.length; i++) {
-            if (i>0) {
+        for (int i = 0; i < field.length; i++) {
+            if (i > 0) {
                 b.append(delim);
             }
 
@@ -87,11 +86,9 @@ public class JdbcStatementLoader implements RecordLoader {
             if (fieldValue instanceof Date) {
 //                b.append("'").append(dateTimeFormat.format((Date)field[i])).append("'");
                 b.append("'").append((Date) fieldValue).append("'");
-            }
-            else if (fieldValue instanceof String) {
+            } else if (fieldValue instanceof String) {
                 b.append("'").append(fieldValue).append("'");
-            }
-            else {
+            } else {
                 b.append(fieldValue);
             }
         }
@@ -104,7 +101,7 @@ public class JdbcStatementLoader implements RecordLoader {
     }
 
     public void close() throws Exception {
-        if (currentBatchSize>0) {
+        if (currentBatchSize > 0) {
             executeBulkInsert();
         }
         stmt.close();

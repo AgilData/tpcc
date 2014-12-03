@@ -28,17 +28,15 @@ public class FileLoader implements RecordLoader {
     public void load(Record r) throws Exception {
         b.setLength(0);
         final Object[] field = r.getField();
-        for (int i=0; i< field.length; i++) {
-            if (i>0) {
+        for (int i = 0; i < field.length; i++) {
+            if (i > 0) {
                 b.append('\t');
             }
             if (field[i] == null) {
                 b.append("\\N");
-            }
-            else if (field[i] instanceof Date) {
-                b.append(dateTimeFormat.format((Date)field[i]));
-            }
-            else {
+            } else if (field[i] instanceof Date) {
+                b.append(dateTimeFormat.format((Date) field[i]));
+            } else {
                 b.append(field[i]);
             }
         }

@@ -37,7 +37,7 @@ public class TpccLoad implements TpccConstants {
 
     /* Global Variables */
     static int i = 0;
-//    static int is_local = 1;           /* "1" mean local */
+    //    static int is_local = 1;           /* "1" mean local */
 //    static int DB_STRING_MAX = 51;
     static boolean option_debug = false;	/* 1 if generating debug output    */
 
@@ -143,13 +143,11 @@ public class TpccLoad implements TpccConstants {
             if (dbPassword == null) {
                 throw new RuntimeException("Password is null.");
             }
-        }
-        else if (mode.equalsIgnoreCase("FILE")) {
+        } else if (mode.equalsIgnoreCase("FILE")) {
             if (outputDir == null) {
                 throw new RuntimeException("Output dir is null.");
             }
-        }
-        else {
+        } else {
             throw new RuntimeException("Invalid mode '" + mode + "': must be CSV or JDBC");
         }
 
@@ -173,8 +171,7 @@ public class TpccLoad implements TpccConstants {
             System.out.printf("        [URL]: %s\n", jdbcUrl);
             System.out.printf("       [user]: %s\n", dbUser);
             System.out.printf("       [pass]: %s\n", dbPassword);
-        }
-        else {
+        } else {
             System.out.printf(" [Output Dir]: %s\n", outputDir);
         }
 
@@ -237,8 +234,7 @@ public class TpccLoad implements TpccConstants {
 
             loadConfig.setLoadType(TpccLoadConfig.LoadType.JDBC_STATEMENT);
             loadConfig.setConn(conn);
-        }
-        else {
+        } else {
             File outputDir = new File(this.outputDir);
             if (outputDir.exists()) {
                 String[] list = outputDir.list(new FilenameFilter() {
@@ -249,8 +245,7 @@ public class TpccLoad implements TpccConstants {
                 if (list.length > 0) {
                     throw new RuntimeException("All text files must be deleted from " + outputDir + " before generating data");
                 }
-            }
-            else {
+            } else {
                 if (!outputDir.mkdirs()) {
                     throw new RuntimeException("Could not create dir: " + outputDir.getAbsolutePath());
                 }
@@ -290,8 +285,7 @@ public class TpccLoad implements TpccConstants {
             }
 
             System.out.printf("\n...DATA LOADING COMPLETED SUCCESSFULLY.\n");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Error loading data");
             e.printStackTrace();
         }
@@ -305,9 +299,9 @@ public class TpccLoad implements TpccConstants {
         DecimalFormat df1 = new DecimalFormat("#,##0");
         DecimalFormat df2 = new DecimalFormat("#,##0.000");
         System.out.println("Total execution time: "
-                + df1.format(minutes) + " minute(s), "
-                + df1.format(seconds) + " second(s) ("
-                + df2.format(durationSeconds / 60.0f) + " minutes)"
+                        + df1.format(minutes) + " minute(s), "
+                        + df1.format(seconds) + " second(s) ("
+                        + df2.format(durationSeconds / 60.0f) + " minutes)"
         );
 
         return 0;

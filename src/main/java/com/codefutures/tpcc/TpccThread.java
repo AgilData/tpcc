@@ -15,8 +15,8 @@ import org.slf4j.Logger;
 
 public class TpccThread extends Thread {
 
-	private static final Logger logger = LoggerFactory.getLogger(TpccThread.class);
-	private static final boolean DEBUG = logger.isDebugEnabled();
+    private static final Logger logger = LoggerFactory.getLogger(TpccThread.class);
+    private static final boolean DEBUG = logger.isDebugEnabled();
 
     /**
      * Dedicated JDBC connection for this thread.
@@ -24,35 +24,35 @@ public class TpccThread extends Thread {
     Connection conn;
 
     Driver driver;
-	
-	int number;
-	int port;
-	int is_local;
-	int num_ware;
-	int num_conn;
-	String db_user;
-	String db_password;
-	String driverClassName;
-	String jdbcUrl;
+
+    int number;
+    int port;
+    int is_local;
+    int num_ware;
+    int num_conn;
+    String db_user;
+    String db_password;
+    String driverClassName;
+    String jdbcUrl;
     int fetchSize;
 
-	private int[] success;
-	private int[] late;
-	private int[] retry;
-	private int[] failure;
+    private int[] success;
+    private int[] late;
+    private int[] retry;
+    private int[] failure;
 
-	private int[][] success2;
-	private int[][] late2;
-	private int[][] retry2;
-	private int[][] failure2;
+    private int[][] success2;
+    private int[][] late2;
+    private int[][] retry2;
+    private int[][] failure2;
 
-	//TpccStatements pStmts;
-	
-	public TpccThread(int number, int port, int is_local, String db_user, String db_password,
-			int num_ware, int num_conn, String driverClassName, String dURL, int fetchSize,
-			int[] success, int[] late, int[] retry, int[] failure, 
-			int[][] success2, int[][] late2, int[][] retry2, int[][] failure2) {
-		
+    //TpccStatements pStmts;
+
+    public TpccThread(int number, int port, int is_local, String db_user, String db_password,
+                      int num_ware, int num_conn, String driverClassName, String dURL, int fetchSize,
+                      int[] success, int[] late, int[] retry, int[] failure,
+                      int[][] success2, int[][] late2, int[][] retry2, int[][] failure2) {
+
         this.number = number;
         this.port = port;
         this.db_password = db_password;
@@ -63,17 +63,17 @@ public class TpccThread extends Thread {
         this.driverClassName = driverClassName;
         this.jdbcUrl = dURL;
         this.fetchSize = fetchSize;
-        
-		this.success = success;
-		this.late = late;
-		this.retry = retry;
-		this.failure = failure;
-		
-		this.success2 = success2;
-		this.late2 = late2;
-		this.retry2 = retry2;
-		this.failure2 = failure2;
-		
+
+        this.success = success;
+        this.late = late;
+        this.retry = retry;
+        this.failure = failure;
+
+        this.success2 = success2;
+        this.late2 = late2;
+        this.retry2 = retry2;
+        this.failure2 = failure2;
+
         connectToDatabase();
 
         // Create a driver instance.
@@ -120,8 +120,8 @@ public class TpccThread extends Thread {
 
                     if (logger.isDebugEnabled()) {
                         logger.debug("Connection properties: {");
-                        final Set<Map.Entry<Object,Object>> entries = prop.entrySet();
-                        for (Map.Entry<Object,Object> entry : entries) {
+                        final Set<Map.Entry<Object, Object>> entries = prop.entrySet();
+                        for (Map.Entry<Object, Object> entry : entries) {
                             logger.debug(entry.getKey() + " = " + entry.getValue());
                         }
 
@@ -131,8 +131,7 @@ public class TpccThread extends Thread {
                 } catch (IOException e) {
                     logger.error("", e);
                 }
-            }
-            else {
+            } else {
                 logger.warn(connPropFile.getAbsolutePath() + " does not exist! Using default connection properties");
             }
             prop.put("user", db_user);

@@ -37,15 +37,15 @@ public class JdbcPreparedStatementLoader implements RecordLoader {
             b.append("IGNORE ");
         }
         b.append("INTO `").append(tableName).append("` (");
-        for (int i=0; i<columnName.length; i++) {
-            if (i>0) {
+        for (int i = 0; i < columnName.length; i++) {
+            if (i > 0) {
                 b.append(',');
             }
             b.append(columnName[i].trim());
         }
         b.append(") VALUES (");
-        for (int i=0; i<columnName.length; i++) {
-            if (i>0) {
+        for (int i = 0; i < columnName.length; i++) {
+            if (i > 0) {
                 b.append(',');
             }
             b.append('?');
@@ -62,11 +62,11 @@ public class JdbcPreparedStatementLoader implements RecordLoader {
     }
 
     public void load(Record r) throws Exception {
-        for (int i=0; i<columnName.length; i++) {
-            pstmt.setObject(i+1, r.getField(i));
+        for (int i = 0; i < columnName.length; i++) {
+            pstmt.setObject(i + 1, r.getField(i));
         }
         pstmt.addBatch();
-        if (++currentBatchSize==maxBatchSize) {
+        if (++currentBatchSize == maxBatchSize) {
             executeCurrentBatch();
         }
     }

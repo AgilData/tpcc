@@ -123,7 +123,7 @@ public class Driver implements TpccConstants {
 
                 if (DETECT_LOCK_WAIT_TIMEOUTS) {
                     final int _sequence = sequence;
-                    FutureTask t = new FutureTask<Object>(new Callable<Object>(){
+                    FutureTask t = new FutureTask<Object>(new Callable<Object>() {
                         public Object call() throws Exception {
                             doNextTransaction(t_num, _sequence);
                             return null;
@@ -144,8 +144,7 @@ public class Driver implements TpccConstants {
                         Tpcc.activate_transaction = 0;
                     }
 
-                }
-                else {
+                } else {
                     doNextTransaction(t_num, sequence);
                 }
 
@@ -244,8 +243,7 @@ public class Driver implements TpccConstants {
                     supware[i] = otherWare(w_id);
                     all_local = 0;
                 }
-            }
-            else {
+            } else {
                 supware[i] = w_id;
             }
             qty[i] = Util.randomNumber(1, 10);
@@ -365,8 +363,7 @@ public class Driver implements TpccConstants {
                 c_w_id = otherWare(w_id);
                 c_d_id = Util.randomNumber(1, DIST_PER_WARE);
             }
-        }
-        else {
+        } else {
             c_w_id = w_id;
             c_d_id = d_id;
         }

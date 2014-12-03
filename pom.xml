@@ -7,7 +7,7 @@
     <groupId>com.codefutures</groupId>
     <artifactId>tpcc</artifactId>
     <name>tpcc</name>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <licenses>
