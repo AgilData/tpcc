@@ -3,6 +3,12 @@ Java TPC-C
 
 This project is a Java implementation of the TPC-C benchmark.
 
+=========
+Compiling
+=========
+
+mvn package assembly:single
+
 ========
 Database
 ========
@@ -26,7 +32,9 @@ can be loaded into MySQL later using LOAD DATA INFILE.
 
 In tpcc.properties set the MODE to either CSV or JDBC.
 
-To run the load process, run "ant tpccload".
+To run the load process:
+
+java -classpath target/tpcc-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.codefutures.tpcc.TpccLoad
 
 It is possible to load data into shards where the warehouse ID is used as a shard key. The
 SHARDCOUNT and SHARDID properties must be set correctly when generating or loading data.
@@ -38,7 +46,9 @@ dbShards (http://www.dbshards.com).
 Running the TPC-C Benchmark
 ===========================
 
-To run the tpcc benchmarks, run "ant tpccrun".
+To run the tpcc benchmarks:
+
+java -classpath target/tpcc-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.codefutures.tpcc.Tpcc
 
 Bugs can be reported to support@codefutures.com.
 
