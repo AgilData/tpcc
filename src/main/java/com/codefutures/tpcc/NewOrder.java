@@ -195,6 +195,8 @@ public class NewOrder implements TpccConstants {
                     logger.error("SELECT c_discount, c_last, c_credit FROM customer WHERE c_w_id = " + w_id + " AND c_d_id = " + d_id + " AND c_id = " + c_id, e);
                     throw new Exception("NewOrder (join = false) select transaction error", e);
                 }
+            } else {
+                logger.error("joins is empty or null");
             }
             //Get prepared statement
             //"SELECT d_next_o_id, d_tax FROM district WHERE d_id = ? AND d_w_id = ? FOR UPDATE"

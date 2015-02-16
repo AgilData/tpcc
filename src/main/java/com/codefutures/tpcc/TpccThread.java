@@ -140,6 +140,7 @@ public class TpccThread extends Thread {
             prop.put("user", db_user);
             prop.put("password", db_password);
 
+
             conn = DriverManager.getConnection(jdbcUrl, prop);
             conn.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
             conn.setAutoCommit(false);
