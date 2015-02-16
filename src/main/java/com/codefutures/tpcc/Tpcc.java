@@ -237,11 +237,14 @@ public class Tpcc implements TpccConstants {
         System.out.printf("        [URL]: %s\n", jdbcUrl);
         System.out.printf("       [user]: %s\n", dbUser);
         System.out.printf("       [pass]: %s\n", dbPassword);
+        System.out.printf("    [measure]: %b\n", joins);
+
 
         System.out.printf("  [warehouse]: %d\n", numWare);
         System.out.printf(" [connection]: %d\n", numConn);
         System.out.printf("     [rampup]: %d (sec.)\n", rampupTime);
         System.out.printf("    [measure]: %d (sec.)\n", measureTime);
+
 
         Util.seqInit(10, 10, 1, 1, 1);
 
