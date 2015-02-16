@@ -46,12 +46,14 @@ public class TpccThread extends Thread {
     private int[][] retry2;
     private int[][] failure2;
 
+    private boolean joins;
+
     //TpccStatements pStmts;
 
     public TpccThread(int number, int port, int is_local, String db_user, String db_password,
                       int num_ware, int num_conn, String driverClassName, String dURL, int fetchSize,
                       int[] success, int[] late, int[] retry, int[] failure,
-                      int[][] success2, int[][] late2, int[][] retry2, int[][] failure2) {
+                      int[][] success2, int[][] late2, int[][] retry2, int[][] failure2, boolean joins) {
 
         this.number = number;
         this.port = port;
@@ -73,13 +75,14 @@ public class TpccThread extends Thread {
         this.late2 = late2;
         this.retry2 = retry2;
         this.failure2 = failure2;
+        this.joins = joins;
 
         connectToDatabase();
 
         // Create a driver instance.
         driver = new Driver(conn, fetchSize,
                 success, late, retry, failure,
-                success2, late2, retry2, failure2);
+                success2, late2, retry2, failure2, joins);
 
     }
 

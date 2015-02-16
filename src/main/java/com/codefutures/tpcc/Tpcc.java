@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -28,6 +29,8 @@ public class Tpcc implements TpccConstants {
     private static final String RAMPUPTIME = "RAMPUPTIME";
     private static final String DURATION = "DURATION";
     private static final String JDBCURL = "JDBCURL";
+    private static final String JOINS = "JOINS";
+
 
     private static final String PROPERTIESFILE = "tpcc.properties";
     
@@ -38,6 +41,7 @@ public class Tpcc implements TpccConstants {
     private String jdbcUrl;
     private String dbUser;
     private String dbPassword;
+    private Boolean joins = true;
 
 
     private int numWare;
@@ -142,6 +146,8 @@ public class Tpcc implements TpccConstants {
                     jdbcUrl = argv[i + 1];
                 } else if (argv[i].equals("-f")) {
                     fetchSize = Integer.parseInt(argv[i + 1]);
+                } else if (argv[i].equals("-J")) {
+                    joins = Boolean.parseBoolean(argv[i + 1]);
                 } else {
                     System.out.println("Incorrect Argument: " + argv[i]);
                     System.out.println("The possible arguments are as follows: ");
@@ -156,6 +162,7 @@ public class Tpcc implements TpccConstants {
                     System.out.println("-j [java driver]");
                     System.out.println("-l [jdbc url]");
                     System.out.println("-h [jdbc fetch size]");
+                    System.out.println("-J [Joins (true|false) default=true]");
                     System.exit(-1);
 
                 }
@@ -171,6 +178,8 @@ public class Tpcc implements TpccConstants {
             javaDriver = properties.getProperty(DRIVER);
             jdbcUrl = properties.getProperty(JDBCURL);
             String jdbcFetchSize = properties.getProperty("JDBCFETCHSIZE");
+            joins = Boolean.parseBoolean(properties.getProperty(JOINS));
+
             if (jdbcFetchSize != null) {
                 fetchSize = Integer.parseInt(jdbcFetchSize);
             }
@@ -247,7 +256,7 @@ public class Tpcc implements TpccConstants {
         for (int i = 0; i < numConn; i++) {
             Runnable worker = new TpccThread(i, port, 1, dbUser, dbPassword, numWare, numConn,
                     javaDriver, jdbcUrl, fetchSize,
-                    success, late, retry, failure, success2, late2, retry2, failure2);
+                    success, late, retry, failure, success2, late2, retry2, failure2, joins);
             executor.execute(worker);
         }
 

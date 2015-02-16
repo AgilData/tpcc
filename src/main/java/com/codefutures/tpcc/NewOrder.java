@@ -29,14 +29,16 @@ public class NewOrder implements TpccConstants {
     float[] price = new float[MAX_NUM_ITEMS];
     int[] stock = new int[MAX_NUM_ITEMS];
     int[] ol_num_seq = new int[MAX_NUM_ITEMS];
+    boolean joins;
 
     /**
      * Constructor.
      *
      * @param pStmts
      */
-    public NewOrder(TpccStatements pStmts) {
+    public NewOrder(TpccStatements pStmts, Boolean joins) {
         this.pStmts = pStmts;
+        this.joins = joins;
     }
 
     private String pickDistInfo(String ol_dist_info, int ol_supply_w_id) {
@@ -132,30 +134,66 @@ public class NewOrder implements TpccConstants {
             String currentTimeStamp = time.toString();
 
 
-            //Get prepared statement
-            //"SELECT c_discount, c_last, c_credit, w_tax FROM customer, warehouse WHERE w_id = ? AND c_w_id = w_id AND c_d_id = ? AND c_id = ?"
-            try {
-                int column = 1;
-                final PreparedStatement pstmt0 = pStmts.getStatement(0);
-                pstmt0.setInt(column++, w_id);
-                pstmt0.setInt(column++, w_id);
-                pstmt0.setInt(column++, d_id);
-                pstmt0.setInt(column++, c_id);
-                if (TRACE)
-                    logger.trace("SELECT c_discount, c_last, c_credit, w_tax FROM customer, warehouse WHERE w_id = " + w_id + " AND c_w_id = " + w_id + " AND c_d_id = " + d_id + " AND c_id = " + c_id);
-                ResultSet rs = pstmt0.executeQuery();
-                if (rs.next()) {
-                    c_discount = rs.getFloat(1);
-                    c_last = rs.getString(2);
-                    c_credit = rs.getString(3);
-                    w_tax = rs.getFloat(4);
+            // Changing how this works if joins = false
+            if (joins = true) {
+                //Get prepared statement
+                //"SELECT c_discount, c_last, c_credit, w_tax FROM customer, warehouse WHERE w_id = ? AND c_w_id = w_id AND c_d_id = ? AND c_id = ?"
+                try {
+                    int column = 1;
+                    final PreparedStatement pstmt0 = pStmts.getStatement(0);
+                    pstmt0.setInt(column++, w_id);
+                    pstmt0.setInt(column++, w_id);
+                    pstmt0.setInt(column++, d_id);
+                    pstmt0.setInt(column++, c_id);
+                    if (TRACE)
+                        logger.trace("SELECT c_discount, c_last, c_credit, w_tax FROM customer, warehouse WHERE w_id = " + w_id + " AND c_w_id = " + w_id + " AND c_d_id = " + d_id + " AND c_id = " + c_id);
+                    ResultSet rs = pstmt0.executeQuery();
+                    if (rs.next()) {
+                        c_discount = rs.getFloat(1);
+                        c_last = rs.getString(2);
+                        c_credit = rs.getString(3);
+                        w_tax = rs.getFloat(4);
+                    }
+                    rs.close();
+                } catch (SQLException e) {
+                    logger.error("SELECT c_discount, c_last, c_credit, w_tax FROM customer, warehouse WHERE w_id = " + w_id + " AND c_w_id = " + w_id + " AND c_d_id = " + d_id + " AND c_id = " + c_id, e);
+                    throw new Exception("NewOrder select transaction error", e);
                 }
-                rs.close();
-            } catch (SQLException e) {
-                logger.error("SELECT c_discount, c_last, c_credit, w_tax FROM customer, warehouse WHERE w_id = " + w_id + " AND c_w_id = " + w_id + " AND c_d_id = " + d_id + " AND c_id = " + c_id, e);
-                throw new Exception("NewOrder select transaction error", e);
-            }
+            } else if (joins = false) {
+                // Running 2 seperate queries here
+                try {
+                    int column = 1;
+                    //SELECT c_discount, c_last, c_credit FROM customer WHERE c_w_id = ? AND c_d_id = ? AND c_id = ?
+                    final PreparedStatement pstmt35 = pStmts.getStatement(35);
+                    pstmt35.setInt(column++, w_id);
+                    pstmt35.setInt(column++, d_id);
+                    pstmt35.setInt(column++, c_id);
 
+                    //SELECT w_tax FROM warehouse WHERE w_id = ?
+                    final PreparedStatement pstmt36 = pStmts.getStatement(36);
+                    pstmt36.setInt(1, w_id);
+
+                    if (TRACE)
+                        logger.trace("SELECT c_discount, c_last, c_credit FROM customer WHERE c_w_id = " + w_id + " AND c_d_id = " + d_id + " AND c_id = " + c_id);
+                    if (TRACE)
+                        logger.trace("SELECT w_tax FROM warehouse WHERE w_id = " + w_id);
+                    ResultSet rs0 = pstmt35.executeQuery();
+                    ResultSet rs1 = pstmt35.executeQuery();
+                    if (rs0.next()) {
+                        c_discount = rs0.getFloat(1);
+                        c_last = rs0.getString(2);
+                        c_credit = rs0.getString(3);
+                    }
+                    if (rs1.next()) {
+                        w_tax = rs1.getFloat(1);
+                    }
+                    rs0.close();
+                    rs1.close();
+                } catch (SQLException e) {
+                    logger.error("SELECT c_discount, c_last, c_credit FROM customer WHERE c_w_id = " + w_id + " AND c_d_id = " + d_id + " AND c_id = " + c_id, e);
+                    throw new Exception("NewOrder (join = false) select transaction error", e);
+                }
+            }
             //Get prepared statement
             //"SELECT d_next_o_id, d_tax FROM district WHERE d_id = ? AND d_w_id = ? FOR UPDATE"
 

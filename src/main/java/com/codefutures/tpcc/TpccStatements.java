@@ -12,7 +12,7 @@ public class TpccStatements {
 
     private static final Logger logger = LoggerFactory.getLogger(TpccStatements.class);
 
-    public static final int STMT_COUNT = 35;
+    public static final int STMT_COUNT = 37;
 
     private final Connection conn;
 
@@ -22,18 +22,18 @@ public class TpccStatements {
         this.conn = conn;
 
         // NewOrder statements.
-        pStmts[0] = prepareStatement("SELECT c_discount, c_last, c_credit, w_tax FROM customer, warehouse WHERE w_id = ? AND c_w_id = ? AND c_d_id = ? AND c_id = ?");
-        pStmts[1] = prepareStatement("SELECT d_next_o_id, d_tax FROM district WHERE d_id = ? AND d_w_id = ? FOR UPDATE");
-        pStmts[2] = prepareStatement("UPDATE district SET d_next_o_id = ? + 1 WHERE d_id = ? AND d_w_id = ?");
-        pStmts[3] = prepareStatement("INSERT INTO orders (o_id, o_d_id, o_w_id, o_c_id, o_entry_d, o_ol_cnt, o_all_local) VALUES(?, ?, ?, ?, ?, ?, ?)");
-        pStmts[4] = prepareStatement("INSERT INTO new_orders (no_o_id, no_d_id, no_w_id) VALUES (?,?,?)");
-        pStmts[5] = prepareStatement("SELECT i_price, i_name, i_data FROM item WHERE i_id = ?");
-        pStmts[6] = prepareStatement("SELECT s_quantity, s_data, s_dist_01, s_dist_02, s_dist_03, s_dist_04, s_dist_05, s_dist_06, s_dist_07, s_dist_08, s_dist_09, s_dist_10 FROM stock WHERE s_i_id = ? AND s_w_id = ? FOR UPDATE");
-        pStmts[7] = prepareStatement("UPDATE stock SET s_quantity = ? WHERE s_i_id = ? AND s_w_id = ?");
-        pStmts[8] = prepareStatement("INSERT INTO order_line (ol_o_id, ol_d_id, ol_w_id, ol_number, ol_i_id, ol_supply_w_id, ol_quantity, ol_amount, ol_dist_info) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        pStmts[0]  = prepareStatement("SELECT c_discount, c_last, c_credit, w_tax FROM customer, warehouse WHERE w_id = ? AND c_w_id = ? AND c_d_id = ? AND c_id = ?");
+        pStmts[1]  = prepareStatement("SELECT d_next_o_id, d_tax FROM district WHERE d_id = ? AND d_w_id = ? FOR UPDATE");
+        pStmts[2]  = prepareStatement("UPDATE district SET d_next_o_id = ? + 1 WHERE d_id = ? AND d_w_id = ?");
+        pStmts[3]  = prepareStatement("INSERT INTO orders (o_id, o_d_id, o_w_id, o_c_id, o_entry_d, o_ol_cnt, o_all_local) VALUES(?, ?, ?, ?, ?, ?, ?)");
+        pStmts[4]  = prepareStatement("INSERT INTO new_orders (no_o_id, no_d_id, no_w_id) VALUES (?,?,?)");
+        pStmts[5]  = prepareStatement("SELECT i_price, i_name, i_data FROM item WHERE i_id = ?");
+        pStmts[6]  = prepareStatement("SELECT s_quantity, s_data, s_dist_01, s_dist_02, s_dist_03, s_dist_04, s_dist_05, s_dist_06, s_dist_07, s_dist_08, s_dist_09, s_dist_10 FROM stock WHERE s_i_id = ? AND s_w_id = ? FOR UPDATE");
+        pStmts[7]  = prepareStatement("UPDATE stock SET s_quantity = ? WHERE s_i_id = ? AND s_w_id = ?");
+        pStmts[8]  = prepareStatement("INSERT INTO order_line (ol_o_id, ol_d_id, ol_w_id, ol_number, ol_i_id, ol_supply_w_id, ol_quantity, ol_amount, ol_dist_info) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         // Payment statements.
-        pStmts[9] = prepareStatement("UPDATE warehouse SET w_ytd = w_ytd + ? WHERE w_id = ?");
+        pStmts[9]  = prepareStatement("UPDATE warehouse SET w_ytd = w_ytd + ? WHERE w_id = ?");
         pStmts[10] = prepareStatement("SELECT w_street_1, w_street_2, w_city, w_state, w_zip, w_name FROM warehouse WHERE w_id = ?");
         pStmts[11] = prepareStatement("UPDATE district SET d_ytd = d_ytd + ? WHERE d_w_id = ? AND d_id = ?");
         pStmts[12] = prepareStatement("SELECT d_street_1, d_street_2, d_city, d_state, d_zip, d_name FROM district WHERE d_w_id = ? AND d_id = ?");
@@ -65,6 +65,10 @@ public class TpccStatements {
         pStmts[32] = prepareStatement("SELECT d_next_o_id FROM district WHERE d_id = ? AND d_w_id = ?");
         pStmts[33] = prepareStatement("SELECT DISTINCT ol_i_id FROM order_line WHERE ol_w_id = ? AND ol_d_id = ? AND ol_o_id < ? AND ol_o_id >= (? - 20)");
         pStmts[34] = prepareStatement("SELECT count(*) FROM stock WHERE s_w_id = ? AND s_i_id = ? AND s_quantity < ?");
+
+        // These are used in place of pStmts[0] in order to avoid joins
+        pStmts[35]  = prepareStatement("SELECT c_discount, c_last, c_credit FROM customer WHERE c_w_id = ? AND c_d_id = ? AND c_id = ?");
+        pStmts[36]  = prepareStatement("SELECT w_tax FROM warehouse WHERE w_id = ?");
 
         for (int i = 0; i < pStmts.length; i++) {
             pStmts[i].setFetchSize(fetchSize);

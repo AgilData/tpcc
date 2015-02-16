@@ -72,14 +72,14 @@ public class Driver implements TpccConstants {
      */
     public Driver(Connection conn, int fetchSize,
                   int[] success, int[] late, int[] retry, int[] failure,
-                  int[][] success2, int[][] late2, int[][] retry2, int[][] failure2) {
+                  int[][] success2, int[][] late2, int[][] retry2, int[][] failure2, boolean joins) {
         try {
             this.conn = conn;
 
             pStmts = new TpccStatements(conn, fetchSize);
 
             // Initialize the transactions.
-            newOrder = new NewOrder(pStmts);
+            newOrder = new NewOrder(pStmts, joins);
             payment = new Payment(pStmts);
             orderStat = new OrderStat(pStmts);
             slev = new Slev(pStmts);
