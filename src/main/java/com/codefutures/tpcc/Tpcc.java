@@ -41,7 +41,7 @@ public class Tpcc implements TpccConstants {
     private String jdbcUrl;
     private String dbUser;
     private String dbPassword;
-    private static Boolean joins;
+    private Boolean joins = true;
 
 
     private int numWare;
@@ -162,7 +162,7 @@ public class Tpcc implements TpccConstants {
                     System.out.println("-j [java driver]");
                     System.out.println("-l [jdbc url]");
                     System.out.println("-h [jdbc fetch size]");
-                    System.out.println("-J [joins (true|false)]");
+                    System.out.println("-J [joins (true|false) default true]");
                     System.exit(-1);
 
                 }
@@ -237,7 +237,7 @@ public class Tpcc implements TpccConstants {
         System.out.printf("        [URL]: %s\n", jdbcUrl);
         System.out.printf("       [user]: %s\n", dbUser);
         System.out.printf("       [pass]: %s\n", dbPassword);
-        System.out.printf("      [JOINS]: %b\n", joins);
+        System.out.printf("      [joins]: %b\n", joins);
 
 
         System.out.printf("  [warehouse]: %d\n", numWare);

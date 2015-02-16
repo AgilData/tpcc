@@ -135,7 +135,7 @@ public class NewOrder implements TpccConstants {
 
 
             // Changing how this works if joins = false
-            if (joins = true) {
+            if (joins == true) {
                 //Get prepared statement
                 //"SELECT c_discount, c_last, c_credit, w_tax FROM customer, warehouse WHERE w_id = ? AND c_w_id = w_id AND c_d_id = ? AND c_id = ?"
                 logger.info("joins = true");
@@ -160,7 +160,7 @@ public class NewOrder implements TpccConstants {
                     logger.error("SELECT c_discount, c_last, c_credit, w_tax FROM customer, warehouse WHERE w_id = " + w_id + " AND c_w_id = " + w_id + " AND c_d_id = " + d_id + " AND c_id = " + c_id, e);
                     throw new Exception("NewOrder select transaction error", e);
                 }
-            } else if (joins = false) {
+            } else if (joins == false) {
                 logger.info("joins = false");
                 // Running 2 seperate queries here
                 try {
