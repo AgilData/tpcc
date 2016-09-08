@@ -148,14 +148,14 @@ public class NewOrder implements TpccConstants {
                     pstmt0.setInt(column++, c_id);
                     if (TRACE)
                         logger.trace("SELECT c_discount, c_last, c_credit, w_tax FROM customer, warehouse WHERE w_id = " + w_id + " AND c_w_id = " + w_id + " AND c_d_id = " + d_id + " AND c_id = " + c_id);
-                    ResultSet rs = pstmt0.executeQuery();
-                    if (rs.next()) {
-                        c_discount = rs.getFloat(1);
-                        c_last = rs.getString(2);
-                        c_credit = rs.getString(3);
-                        w_tax = rs.getFloat(4);
+                    try (ResultSet rs = pstmt0.executeQuery()) {
+                        if (rs.next()) {
+                            c_discount = rs.getFloat(1);
+                            c_last = rs.getString(2);
+                            c_credit = rs.getString(3);
+                            w_tax = rs.getFloat(4);
+                        }
                     }
-                    rs.close();
                 } catch (SQLException e) {
                     logger.error("SELECT c_discount, c_last, c_credit, w_tax FROM customer, warehouse WHERE w_id = " + w_id + " AND c_w_id = " + w_id + " AND c_d_id = " + d_id + " AND c_id = " + c_id, e);
                     throw new Exception("NewOrder select transaction error", e);
@@ -179,18 +179,18 @@ public class NewOrder implements TpccConstants {
                         logger.trace("SELECT c_discount, c_last, c_credit FROM customer WHERE c_w_id = " + w_id + " AND c_d_id = " + d_id + " AND c_id = " + c_id);
                     if (TRACE)
                         logger.trace("SELECT w_tax FROM warehouse WHERE w_id = " + w_id);
-                    ResultSet rs0 = pstmt35.executeQuery();
-                    ResultSet rs1 = pstmt35.executeQuery();
-                    if (rs0.next()) {
-                        c_discount = rs0.getFloat(1);
-                        c_last = rs0.getString(2);
-                        c_credit = rs0.getString(3);
+                    try (ResultSet rs0 = pstmt35.executeQuery()) {
+                        if (rs0.next()) {
+                            c_discount = rs0.getFloat(1);
+                            c_last = rs0.getString(2);
+                            c_credit = rs0.getString(3);
+                        }
                     }
-                    if (rs1.next()) {
-                        w_tax = rs1.getFloat(1);
+                    try (ResultSet rs1 = pstmt36.executeQuery()) {
+                        if (rs1.next()) {
+                            w_tax = rs1.getFloat(1);
+                        }
                     }
-                    rs0.close();
-                    rs1.close();
                 } catch (SQLException e) {
                     logger.error("SELECT c_discount, c_last, c_credit FROM customer WHERE c_w_id = " + w_id + " AND c_d_id = " + d_id + " AND c_id = " + c_id, e);
                     throw new Exception("NewOrder (join = false) select transaction error", e);
@@ -207,16 +207,15 @@ public class NewOrder implements TpccConstants {
                 pstmt1.setInt(2, w_id);
                 if (TRACE)
                     logger.trace("SELECT d_next_o_id, d_tax FROM district WHERE d_id = " + d_id + "  AND d_w_id = " + w_id + " FOR UPDATE");
-                ResultSet rs = pstmt1.executeQuery();
-                if (rs.next()) {
-                    d_next_o_id = rs.getInt(1);
-                    d_tax = rs.getFloat(2);
-                } else {
-                    logger.error("Failed to obtain d_next_o_id. No results to query: "
+                try (ResultSet rs = pstmt1.executeQuery()) {
+                    if (rs.next()) {
+                        d_next_o_id = rs.getInt(1);
+                        d_tax = rs.getFloat(2);
+                    } else {
+                        logger.error("Failed to obtain d_next_o_id. No results to query: "
                             + "SELECT d_next_o_id, d_tax FROM district WHERE d_id = " + d_id + "  AND d_w_id = " + w_id + " FOR UPDATE");
+                    }
                 }
-                rs.close();
-
             } catch (SQLException e) {
                 logger.error("SELECT d_next_o_id, d_tax FROM district WHERE d_id = " + d_id + "  AND d_w_id = " + w_id + " FOR UPDATE", e);
                 throw new Exception("Neworder select transaction error", e);
@@ -317,19 +316,18 @@ public class NewOrder implements TpccConstants {
                     final PreparedStatement pstmt5 = pStmts.getStatement(5);
                     pstmt5.setInt(1, ol_i_id);
                     if (TRACE) logger.trace("SELECT i_price, i_name, i_data FROM item WHERE i_id =" + ol_i_id);
-                    ResultSet rs = pstmt5.executeQuery();
-                    if (rs.next()) {
-                        i_price = rs.getFloat(1);
-                        i_name = rs.getString(2);
-                        i_data = rs.getString(3);
-                    } else {
-                        if (DEBUG) {
-                            logger.debug("No item found for item id " + ol_i_id);
+                    try (ResultSet rs = pstmt5.executeQuery()) {
+                        if (rs.next()) {
+                            i_price = rs.getFloat(1);
+                            i_name = rs.getString(2);
+                            i_data = rs.getString(3);
+                        } else {
+                            if (DEBUG) {
+                                logger.debug("No item found for item id " + ol_i_id);
+                            }
+                            throw new AbortedTransactionException();
                         }
-                        throw new AbortedTransactionException();
                     }
-
-                    rs.close();
                 } catch (SQLException e) {
                     logger.error("SELECT i_price, i_name, i_data FROM item WHERE i_id =" + ol_i_id, e);
                     throw new Exception("NewOrder select transaction error", e);
@@ -347,24 +345,24 @@ public class NewOrder implements TpccConstants {
                     if (TRACE)
                         logger.trace("SELECT s_quantity, s_data, s_dist_01, s_dist_02, s_dist_03, s_dist_04, s_dist_05, s_dist_06, s_dist_07, s_dist_08, s_dist_09, s_dist_10 FROM " +
                                 "stock WHERE s_i_id = " + ol_i_id + " AND s_w_id = " + ol_supply_w_id + " FOR UPDATE");
-                    ResultSet rs = pstmt6.executeQuery();
-                    if (rs.next()) {
-                        s_quantity = rs.getInt(1);
-                        s_data = rs.getString(2);
-                        s_dist_01 = rs.getString(3);
-                        s_dist_02 = rs.getString(4);
-                        s_dist_03 = rs.getString(5);
-                        s_dist_04 = rs.getString(6);
-                        s_dist_05 = rs.getString(7);
-                        s_dist_06 = rs.getString(8);
-                        s_dist_07 = rs.getString(9);
-                        s_dist_08 = rs.getString(10);
-                        s_dist_09 = rs.getString(11);
-                        s_dist_10 = rs.getString(12);
+
+                    try (ResultSet rs = pstmt6.executeQuery()) {
+                        if (rs.next()) {
+                            s_quantity = rs.getInt(1);
+                            s_data = rs.getString(2);
+                            s_dist_01 = rs.getString(3);
+                            s_dist_02 = rs.getString(4);
+                            s_dist_03 = rs.getString(5);
+                            s_dist_04 = rs.getString(6);
+                            s_dist_05 = rs.getString(7);
+                            s_dist_06 = rs.getString(8);
+                            s_dist_07 = rs.getString(9);
+                            s_dist_08 = rs.getString(10);
+                            s_dist_09 = rs.getString(11);
+                            s_dist_10 = rs.getString(12);
+                        }
                     }
 
-
-                    rs.close();
                 } catch (SQLException e) {
                     logger.error("SELECT s_quantity, s_data, s_dist_01, s_dist_02, s_dist_03, s_dist_04, s_dist_05, s_dist_06, s_dist_07, s_dist_08, s_dist_09, s_dist_10 FROM " +
                             "stock WHERE s_i_id = " + ol_i_id + " AND s_w_id = " + ol_supply_w_id + " FOR UPDATE", e);
