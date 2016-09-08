@@ -7,7 +7,11 @@ This project is a Java implementation of the TPC-C benchmark.
 Compiling
 =========
 
+Use this command to compile the code and produce a fat jar.
+
+```
 mvn package assembly:single
+```
 
 ========
 Database
