@@ -38,7 +38,7 @@ Generating and loading TPC-C data
 Data can be loaded directly into a MySQL instance and can also be generated to CSV files that
 can be loaded into MySQL later using LOAD DATA INFILE.
 
-In tpcc.properties set the MODE to either CSV or JDBC.
+In `tpcc.properties` set the MODE to either CSV or JDBC.
 
 To run the load process:
 
@@ -56,7 +56,7 @@ dbShards (http://www.dbshards.com).
 Running the TPC-C Benchmark
 ===========================
 
-To run the tpcc benchmarks:
+Review the TPC-C settings in `tpcc.properties`, then run this command To run the tpcc benchmarks:
 
 ```
 java -classpath target/tpcc-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.codefutures.tpcc.Tpcc

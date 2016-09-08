@@ -95,24 +95,16 @@ public class TpccStatements {
     /**
      * Commit a transaction.
      */
-    public void commit() {
+    public void commit() throws SQLException {
         logger.trace("COMMIT");
-        try {
-            conn.commit();
-        } catch (SQLException e) {
-            logger.error("COMMIT FAILED", e);
-        }
+        conn.commit();
     }
 
     /**
      * Rollback a transaction.
      */
-    public void rollback() {
+    public void rollback() throws SQLException {
         logger.trace("ROLLBACK");
-        try {
-            conn.rollback();
-        } catch (SQLException e) {
-            logger.error("ROLLBACK FAILED", e);
-        }
+        conn.rollback();
     }
 }

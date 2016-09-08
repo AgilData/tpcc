@@ -172,7 +172,7 @@ public class Driver implements TpccConstants {
 
     }
 
-    private void doNextTransaction(int t_num, int sequence) {
+    private void doNextTransaction(int t_num, int sequence) throws SQLException {
         if (sequence == 0) {
             doNeword(t_num);
         } else if (sequence == 1) {
@@ -192,7 +192,7 @@ public class Driver implements TpccConstants {
       * prepare data and execute the new order transaction for one order
       * officially, this is supposed to be simulated terminal I/O
       */
-    private int doNeword(int t_num) {
+    private int doNeword(int t_num) throws SQLException {
         int c_num = 0;
         int i = 0;
         int ret = 0;
