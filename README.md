@@ -38,7 +38,9 @@ In tpcc.properties set the MODE to either CSV or JDBC.
 
 To run the load process:
 
+```
 java -classpath target/tpcc-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.codefutures.tpcc.TpccLoad
+```
 
 It is possible to load data into shards where the warehouse ID is used as a shard key. The
 SHARDCOUNT and SHARDID properties must be set correctly when generating or loading data.
@@ -52,7 +54,9 @@ Running the TPC-C Benchmark
 
 To run the tpcc benchmarks:
 
+```
 java -classpath target/tpcc-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.codefutures.tpcc.Tpcc
+```
 
 Bugs can be reported to support@codefutures.com.
 
