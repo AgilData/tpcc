@@ -15,10 +15,14 @@ Database
 
 To create the tpcc schema in MySQL:
 
+```
 cd database
 mysql -u root
+> create database tpcc;
+> use tpcc;
 > source create_tables.sql
 > source add_fkey_idx.sql
+```
 
 It is possible to load data without the foreign keys and indexes in place and then add those
 after loading data to improve loading times.
