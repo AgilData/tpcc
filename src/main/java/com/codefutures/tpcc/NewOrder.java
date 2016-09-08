@@ -36,7 +36,7 @@ public class NewOrder implements TpccConstants {
      *
      * @param pStmts
      */
-    public NewOrder(TpccStatements pStmts, Boolean joins) {
+    public NewOrder(TpccStatements pStmts, boolean joins) {
         this.pStmts = pStmts;
         this.joins = joins;
     }
@@ -160,7 +160,7 @@ public class NewOrder implements TpccConstants {
                     logger.error("SELECT c_discount, c_last, c_credit, w_tax FROM customer, warehouse WHERE w_id = " + w_id + " AND c_w_id = " + w_id + " AND c_d_id = " + d_id + " AND c_id = " + c_id, e);
                     throw new Exception("NewOrder select transaction error", e);
                 }
-            } else if (!joins) {
+            } else {
                 logger.debug("joins = false");
                 // Running 2 seperate queries here
                 try {
@@ -195,8 +195,6 @@ public class NewOrder implements TpccConstants {
                     logger.error("SELECT c_discount, c_last, c_credit FROM customer WHERE c_w_id = " + w_id + " AND c_d_id = " + d_id + " AND c_id = " + c_id, e);
                     throw new Exception("NewOrder (join = false) select transaction error", e);
                 }
-            } else {
-                logger.error("joins is empty or null");
             }
             //Get prepared statement
             //"SELECT d_next_o_id, d_tax FROM district WHERE d_id = ? AND d_w_id = ? FOR UPDATE"

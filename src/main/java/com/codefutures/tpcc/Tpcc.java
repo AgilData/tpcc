@@ -41,7 +41,7 @@ public class Tpcc implements TpccConstants {
     private String jdbcUrl;
     private String dbUser;
     private String dbPassword;
-    private Boolean joins = true;
+    private final boolean joins = true;
 
 
     private int numWare;
@@ -146,8 +146,8 @@ public class Tpcc implements TpccConstants {
                     jdbcUrl = argv[i + 1];
                 } else if (argv[i].equals("-f")) {
                     fetchSize = Integer.parseInt(argv[i + 1]);
-                } else if (argv[i].equals("-J")) {
-                    joins = Boolean.parseBoolean(argv[i + 1]);
+//                } else if (argv[i].equals("-J")) {
+//                    joins = Boolean.parseBoolean(argv[i + 1]);
                 } else {
                     System.out.println("Incorrect Argument: " + argv[i]);
                     System.out.println("The possible arguments are as follows: ");
@@ -178,7 +178,7 @@ public class Tpcc implements TpccConstants {
             javaDriver = properties.getProperty(DRIVER);
             jdbcUrl = properties.getProperty(JDBCURL);
             String jdbcFetchSize = properties.getProperty("JDBCFETCHSIZE");
-            joins = Boolean.parseBoolean(properties.getProperty(JOINS));
+            //joins = Boolean.parseBoolean(properties.getProperty(JOINS));
 
             if (jdbcFetchSize != null) {
                 fetchSize = Integer.parseInt(jdbcFetchSize);
