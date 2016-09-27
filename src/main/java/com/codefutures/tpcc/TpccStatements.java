@@ -22,7 +22,7 @@ public class TpccStatements {
         this.conn = conn;
 
         // NewOrder statements.
-        pStmts[0]  = prepareStatement("SELECT c.c_discount, c.c_last, c.c_credit, w.w_tax FROM customer c JOIN warehouse w ON c.c_w_id = w_id AND w.w_id = ? AND c.c_w_id = ? AND c.c_d_id = ? AND c.c_id = ?");
+        pStmts[0]  = prepareStatement("SELECT c.c_discount, c.c_last, c.c_credit, w.w_tax FROM customer AS c JOIN warehouse AS w ON c.c_w_id = w_id AND w.w_id = ? AND c.c_w_id = ? AND c.c_d_id = ? AND c.c_id = ?");
         pStmts[1]  = prepareStatement("SELECT d_next_o_id, d_tax FROM district WHERE d_id = ? AND d_w_id = ? FOR UPDATE");
         pStmts[2]  = prepareStatement("UPDATE district SET d_next_o_id = ? + 1 WHERE d_id = ? AND d_w_id = ?");
         pStmts[3]  = prepareStatement("INSERT INTO orders (o_id, o_d_id, o_w_id, o_c_id, o_entry_d, o_ol_cnt, o_all_local) VALUES(?, ?, ?, ?, ?, ?, ?)");
