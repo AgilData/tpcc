@@ -519,7 +519,7 @@ public class Load implements TpccConstants {
 
                 c_credit_lim = 50000;
                 c_discount = (float) (((float) Util.randomNumber(0, 50)) / 100.0);
-                c_balance = (float) -10.0;
+                c_balance = (float) 10.0;
 
                 c_data = Util.makeAlphaString(300, 500);
                 //gettimestamp(datetime, STRFTIME_FORMAT, TIMESTAMP_LEN); Java Equivalent below?
