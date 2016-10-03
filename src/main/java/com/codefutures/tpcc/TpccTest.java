@@ -24,12 +24,12 @@ public class TpccTest {
 
     conn = connectToDatabase();
 
-    PreparedStatement pstmt = prepareStatement("SELECT c_id, c_first FROM customer WHERE c_id = 1");
-    ResultSet rs = pstmt.executeQuery();
-    while (rs.next()) {
-      System.out.println(rs.getInt(1) + "\t" + rs.getString(2));
-    }
-    rs.close();
+//    PreparedStatement pstmt = prepareStatement("SELECT c_id, c_first FROM customer WHERE c_id = 1");
+//    ResultSet rs = pstmt.executeQuery();
+//    while (rs.next()) {
+//      System.out.println(rs.getInt(1) + "\t" + rs.getString(2));
+//    }
+//    rs.close();
 
 //    PreparedStatement pstmt = prepareStatement("INSERT INTO new_orders (no_o_id, no_d_id, no_w_id) VALUES (?,?,?)");
 //    pstmt.setInt(1, 1);
@@ -37,6 +37,8 @@ public class TpccTest {
 //    pstmt.setInt(3, 1);
 //    pstmt.execute();
 
+    Statement stmt = conn.createStatement();
+    stmt.execute("INSERT INTO new_orders (no_o_id, no_d_id, no_w_id) VALUES (-1,-2,-3), (4, 5, 6)");
   }
 
   private static PreparedStatement prepareStatement(String sql) throws SQLException {

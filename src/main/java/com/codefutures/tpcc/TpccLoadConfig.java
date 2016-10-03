@@ -28,7 +28,7 @@ public class TpccLoadConfig {
 
     private boolean jdbcInsertIgnore = true;
 
-    private int jdbcBatchSize = 1;
+    private int jdbcBatchSize = 100;
 
     public RecordLoader createLoader(String tableName, String columnName[]) throws IOException {
         switch (loadType) {
